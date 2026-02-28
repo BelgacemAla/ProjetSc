@@ -6,9 +6,10 @@ struct Position
 end 
 
 struct Carte
-    grille::Matrix{Int}   # valeurs des cases
-    nb_l::Int             # nombre des lignes
-    nb_col::Int           # nombre des colonnes
+    grille::Matrix{Int}    # valeurs des cases
+    couts::Matrix{Float64} # cout de traverse 
+    nb_l::Int              # nombre des lignes
+    nb_col::Int            # nombre des colonnes
     depart::Position
     arrive::Position
 end
@@ -16,7 +17,17 @@ end
 # constructeur d'une carte
 function creation_carte(grille, depart, arrive)
     l, c = size(grille)
-    return Carte(grille, l, c, depart, arrive)
+    couts = ones(Float64, l, c)     # initialise les couts par defaut à 1
+    for i in 1:l, j in 1:c
+        # cas d'obstacle
+        if grille[i,j] == -1
+            couts[i,j] = 0  
+        # zone pénalisante      
+        elseif grille[i,j] == 5
+            couts[i,j] = 5.0         
+        end
+    end
+    return Carte(grille, couts, l, c, depart, arrive)
 end
 
 # affichage d'une carte dans le terminal
@@ -31,6 +42,8 @@ function affichage_carte(c)
                 print(" A ")
             elseif v == -1
                 print(" × ")
+            elseif v == 5
+                print(" 5 ")   
             else
                 print(" . ")
             end
@@ -61,8 +74,10 @@ function voisins(carte::Carte, pos::Position)
     return result
 end
 # test
-grille = [0  0  0  0 ;
+grille = [0  0  5  0 ;
           0 -1 -1  0 ;
           0  0  0  0]
 c = creation_carte(grille, Position(3,1), Position(1,4))
-affichage_carte(c)       
+affichage_carte(c)
+println("tableau des couts")
+println(c.couts)       
