@@ -1,3 +1,4 @@
+using DataStructures
 
 # Permet de touver les parent depuis la position d'arrivé jusqu'au depart
 function reconstruction_chemin(parent, depart, arrive)
@@ -27,18 +28,20 @@ function app_voisin(visite, parent, file, voisin, pos)
     if !visite[voisin.x, voisin.y]
         visite[voisin.x, voisin.y] = true
         parent[voisin.x, voisin.y] = pos
-        push!(file,voisin)
+        enqueue!(file, voisin)
     end
 end
 
 function bfs(c::Carte)
     D = c.depart
     A = c.arrive
-    file = [D]
+    file = Queue{Position}()
+    enqueue!(file, D)
+
     visite , parent = init(c)
     
     while !isempty(file)
-        pos = popfirst!(file)   # défiler le premier element
+        pos = dequeue!(file)   # défiler le premier element
 
         # Si on atteint l'arrivé
         if pos == A 
