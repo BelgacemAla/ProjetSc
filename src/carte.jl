@@ -21,7 +21,7 @@ function creation_carte(grille, depart, arrive)
     for i in 1:l, j in 1:c
         # cas d'obstacle
         if grille[i,j] == -1
-            couts[i,j] = 0  
+            couts[i,j] = Inf      # +infiny pour ne pas passer dessus
         # zone pénalisante      
         elseif grille[i,j] == 5
             couts[i,j] = 5.0         
