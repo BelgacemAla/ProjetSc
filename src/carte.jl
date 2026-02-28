@@ -14,31 +14,52 @@ struct Carte
 end
 
 # constructeur d'une carte
-function creation_carte(grille, depart::Position, arrive::Position)
-    l,c = size(grille)
-    return Carte(grille, l, c, depart,arrive)
+function creation_carte(grille, depart, arrive)
+    l, c = size(grille)
+    return Carte(grille, l, c, depart, arrive)
 end
 
 # affichage d'une carte dans le terminal
-function affichage_carte(c::Carte)
+function affichage_carte(c)
     for i in 1:c.nb_l
         for j in 1:c.nb_col
-            v = c.grille[i,j]
-            p = Position(i,j)
+            v = c.grille[i, j]
+            p = Position(i, j)
             if p == c.depart
                 print(" D ")
             elseif p == c.arrive
                 print(" A ")
             elseif v == -1
                 print(" × ")
-            else 
+            else
                 print(" . ")
             end
         end
         println()
-    end
+    end  
 end
 
+# retourne les voisins valides d'une position 
+function voisins(carte::Carte, pos::Position)
+    result = Position[]
+    # Nord
+    if pos.x - 1 >= 1 && carte.grille[pos.x-1, pos.y] != -1  
+        push!(result, Position(pos.x-1, pos.y)) 
+    end  
+    # Sud
+    if pos.x + 1 <= carte.nb_l && carte.grille[pos.x+1, pos.y] != -1  
+        push!(result, Position(pos.x+1, pos.y)) 
+    end  
+    # Est
+    if pos.y + 1 <= carte.nb_col && carte.grille[pos.x, pos.y+1] != -1  
+        push!(result, Position(pos.x, pos.y+1)) 
+    end  
+    # Ouest
+    if pos.y - 1 >= 1  && carte.grille[pos.x, pos.y-1] != -1  
+        push!(result, Position(pos.x, pos.y-1))  
+    end 
+    return result
+end
 # test
 grille = [0  0  0  0 ;
           0 -1 -1  0 ;
