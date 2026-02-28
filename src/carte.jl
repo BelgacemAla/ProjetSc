@@ -14,8 +14,9 @@ struct Carte
 end
 
 # constructeur d'une carte
-function creation_carte()
-    
+function creation_carte(grille, depart::Position, arrive:Position)
+    l,c = size(grille)
+    return Carte(grille, l, c, depart,arrive)
 end
 
 # affichage d'une carte dans le terminal
