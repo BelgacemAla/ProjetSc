@@ -17,14 +17,14 @@ end
 # constructeur d'une carte
 function creation_carte(grille, depart, arrive)
     l, c = size(grille)
-    couts = ones(Float64, l, c)     # initialise les couts par defaut à 1
+    couts = zeros(Float64, l, c)     # initialise les couts par defaut à 0
     for i in 1:l, j in 1:c
         # cas d'obstacle
         if grille[i,j] == -1
             couts[i,j] = Inf      # +infiny pour ne pas passer dessus
         # zone pénalisante      
-        elseif grille[i,j] == 5
-            couts[i,j] = 5.0         
+        elseif grille[i,j] > 0
+            couts[i,j] = Float64(grille[i,j])     
         end
     end
     return Carte(grille, couts, l, c, depart, arrive)
@@ -42,8 +42,8 @@ function affichage_carte(c)
                 print(" A ")
             elseif v == -1
                 print(" × ")
-            elseif v == 5
-                print(" 5 ")   
+            elseif v > 0
+                print(" ",v," ")   
             else
                 print(" . ")
             end
