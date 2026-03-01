@@ -1,5 +1,5 @@
+#carte.jl 
 # fichier qui contient les propriété d'une carte
-
 struct Position
     x::Int  #ligne
     y::Int  #colonne
@@ -73,11 +73,3 @@ function voisins(carte::Carte, pos::Position)
     end 
     return result
 end
-# test
-grille = [0  0  5  0 ;
-          0 -1 -1  0 ;
-          0  0  0  0]
-c = creation_carte(grille, Position(3,1), Position(1,4))
-affichage_carte(c)
-println("tableau des couts")
-println(c.couts)       
