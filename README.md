@@ -35,3 +35,13 @@ Depuis le dossier `src/` dans le REPL Julia :
 ```julia
 include("main.jl")
 ```
+## Dépendances
+
+- Julia 1.11 ou plus
+- Package `DataStructures.jl` 
+
+Installation de package :
+```julia
+using Pkg
+Pkg.add("DataStructures")
+```
