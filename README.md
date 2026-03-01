@@ -29,4 +29,9 @@ ProjetSc/
 ├── res/                
 └── doc/                
 ```
+## Utilisation
 
+Depuis le dossier `src/` dans le REPL Julia :
+```julia
+include("main.jl")
+```
