@@ -1,4 +1,4 @@
-
+#dijkstra.jl
 using DataStructures
 
 # initialisation des données utilisé 
@@ -17,17 +17,21 @@ function dijkstra(c::Carte)
     A = c.arrive
     
     cout, parent, visite = init_d(c)
+    noeuds_explores = 0
+
     # file de priorité qui avance la position avec le plus petit cout
     file = PriorityQueue{Position, Float64}()
     enqueue!(file, D, 0.0)
     while !isempty(file)
         pos = dequeue!(file) 
+        noeuds_explores +=1
+
         if !visite[pos.x, pos.y]
             visite[pos.x, pos.y] = true
 
             # cas d'arrivé on retourne le chemin et le cout utilisé
             if pos == A
-                return reconstruction_chemin(parent, D, A), cout[A.x, A.y]
+                return reconstruction_chemin(parent, D, A), cout[A.x, A.y], noeuds_explores
             end
 
             # explore les voisin et on calcule le chemin avec leur cout et on choisit me moins cher
@@ -41,20 +45,5 @@ function dijkstra(c::Carte)
             end
         end   
     end
-end
-
-println("test : ")
-grille = [0  0  1  0 ;
-          5 -1 -1  0 ;
-          0  2 0  1]
-
-c = creation_carte(grille, Position(3,1), Position(1,2))
-affichage_carte(c)
-resultat = dijkstra(c)
-if resultat == nothing
-    println("Aucun chemin trouvé")
-else
-    chemin, cout = resultat
-    println("Chemin : ", chemin)
-    println("Coût   : ", cout)
+    nothing, nothing, noeuds_explores
 end

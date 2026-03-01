@@ -1,3 +1,4 @@
+#BFS.jl
 using DataStructures
 
 # Permet de touver les parent depuis la position d'arrivé jusqu'au depart
@@ -39,76 +40,19 @@ function bfs(c::Carte)
     enqueue!(file, D)
 
     visite , parent = init(c)
-    
+    noeuds_explores = 0
     while !isempty(file)
         pos = dequeue!(file)   # défiler le premier element
-
+        noeuds_explores +=1
         # Si on atteint l'arrivé
         if pos == A 
-            return reconstruction_chemin(parent, D, A)
+            return reconstruction_chemin(parent, D, A),0.0, noeuds_explores
         end
         # Sinon on traite ses voisins
         for v in voisins(c, pos)
             app_voisin(visite, parent, file, v, pos)
         end
     end
+    nothing, nothing, noeuds_explores
 end
 
-# test 1
-grille = [0  0  0  0 ;
-          0 -1 -1  0 ;
-          0 -1  0  0]
-
-c = creation_carte(grille, Position(3,1), Position(1,4))
-affichage_carte(c)
-println(" test : normal ")
-chemin = bfs(c)
-println("Chemin : ", chemin)
-println("Longueur : ", length(chemin) - 1)
-
-#####################################################
-
-# test 2 
-println()
-println(" test : impossible ")
-grille = [-1  0  0  0 ;
-          0 -1 -1  0 ;
-          0 -1  0  0]
-
-c = creation_carte(grille, Position(3,1), Position(1,4))
-affichage_carte(c)
-
-chemin = bfs(c)
-println("Chemin : ", chemin)
-
-#####################################################
-
-# test 3
-println()
-println(" test : optimal ")
-grille = [0  0  0  0 ;
-          0 -1 -1  0 ;
-          0 0  0  0]
-
-c = creation_carte(grille, Position(3,1), Position(1,1))
-affichage_carte(c)
-
-chemin = bfs(c)
-println("Chemin : ", chemin)
-println("Longueur : ", length(chemin) - 1)
-
-################################################
-
-#test4
-println()
-println(" test : même position ")
-grille = [0  0  0  0 ;
-          0 -1 -1  0 ;
-          0 0  0  0]
-
-c = creation_carte(grille, Position(3,1), Position(3,1))
-affichage_carte(c)
-
-chemin = bfs(c)
-println("Chemin : ", chemin)
-println("Longueur : ", length(chemin) - 1)
