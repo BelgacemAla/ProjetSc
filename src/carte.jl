@@ -17,7 +17,7 @@ end
 # constructeur d'une carte
 function creation_carte(grille, depart, arrive)
     l, c = size(grille)
-    couts = zeros(Float64, l, c)     # initialise les couts par defaut à 0
+    couts = ones(Float64, l, c)     # initialise les couts par defaut à 0
     for i in 1:l, j in 1:c
         # cas d'obstacle
         if grille[i,j] == -1
