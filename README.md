@@ -11,7 +11,7 @@ Implémentation de 3 algorithmes de recherche de plus court chemin sur une carte
 - **A\*** : recherche informée avec heuristique 
 
 ## Structure du projet
-
+'''
 ProjetSc/
 ├── src/
 │   ├── carte.jl        # types et fonctions de base de la carte 
@@ -28,5 +28,4 @@ ProjetSc/
 │   └── combat.map.scen
 ├── res/                
 └── doc/                
-
-
+'''
