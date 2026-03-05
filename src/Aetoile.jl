@@ -41,7 +41,12 @@ function Aetoile(c::Carte)
                 if nouv_g < g[v.x, v.y]
                     g[v.x, v.y]   = nouv_g
                     parent[v.x, v.y] = pos
-                    enqueue!(file, v, nouv_g + heuristique(v, A))
+                    # mettre à jour la priorité si le voisin est deja dans la file
+                    if haskey(file, v)
+                        file[v] = nouv_g + heuristique(v, A)  
+                    else
+                        enqueue!(file, v, nouv_g + heuristique(v, A))
+                    end
                 end
             end
         end 
