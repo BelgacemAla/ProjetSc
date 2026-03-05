@@ -20,18 +20,11 @@ end
 function init(c::Carte)
     visite = falses(c.nb_l, c.nb_col) 
     visite[c.depart.x, c.depart.y] = true
+    cout = fill(0.0, c.nb_l, c.nb_col)
     parent = fill(Position(0,0), c.nb_l, c.nb_col)
-    return visite, parent
+    return visite, parent, cout
 end
 
-# Fonction qui permet de traiter les voisins d'une position courante en l'ajoutant dans la file
-function app_voisin(visite, parent, file, voisin, pos)
-    if !visite[voisin.x, voisin.y]
-        visite[voisin.x, voisin.y] = true
-        parent[voisin.x, voisin.y] = pos
-        enqueue!(file, voisin)
-    end
-end
 
 function bfs(c::Carte)
     D = c.depart
@@ -39,18 +32,25 @@ function bfs(c::Carte)
     file = Queue{Position}()
     enqueue!(file, D)
 
-    visite , parent = init(c)
+    visite , parent , cout= init(c)
+
     noeuds_explores = 0
     while !isempty(file)
         pos = dequeue!(file)   # défiler le premier element
         noeuds_explores +=1
         # Si on atteint l'arrivé
         if pos == A 
-            return reconstruction_chemin(parent, D, A),0.0, noeuds_explores
+            chemin = reconstruction_chemin(parent, D, A)
+            return chemin,cout[A.x,A.y], noeuds_explores
         end
-        # Sinon on traite ses voisins
+        # Sinon on traite ses voisins de la position courante en l'ajoutant dans la file
         for v in voisins(c, pos)
-            app_voisin(visite, parent, file, v, pos)
+            if !visite[v.x, v.y]        
+                visite[v.x, v.y] = true
+                parent[v.x, v.y] = pos
+                cout[v.x, v.y] = cout[pos.x, pos.y] + c.couts[v.x, v.y]
+                enqueue!(file, v)
+            end
         end
     end
     nothing, nothing, noeuds_explores

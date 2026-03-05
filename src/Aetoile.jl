@@ -10,15 +10,16 @@ end
 function init_a(carte)
     g = fill(Inf, carte.nb_l, carte.nb_col)
     g[carte.depart.x, carte.depart.y] = 0.0
+    visite = falses(carte.nb_l, carte.nb_col)
     parent = fill(Position(0,0), carte.nb_l, carte.nb_col)
-    return g, parent
+    return g, parent, visite
 end
 
 function Aetoile(c::Carte)
     D = c.depart
     A = c.arrive
     
-    g, parent = init_a(c)
+    g, parent,visite = init_a(c)
     # file de priorité qui avance la position avec le plus petit cout
     file = PriorityQueue{Position, Float64}()
     enqueue!(file, D, heuristique(D, A))
@@ -27,6 +28,8 @@ function Aetoile(c::Carte)
     while !isempty(file)
         pos = dequeue!(file) 
         noeuds_explores +=1
+        if !visite[pos.x,pos.y]
+            visite[pos.x,pos.y] = true
             # cas d'arrivé on retourne le chemin et le cout utilisé
             if pos == A
                 return reconstruction_chemin(parent, D, A), g[A.x, A.y],noeuds_explores
@@ -42,6 +45,7 @@ function Aetoile(c::Carte)
                 end
             end
         end 
+    end
     nothing, nothing, noeuds_explores
 end
 
