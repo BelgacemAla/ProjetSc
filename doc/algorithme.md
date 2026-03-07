@@ -10,8 +10,8 @@ Algorithme de recherche en largeur il explore les cases voisines niveau par nive
 - Non optimal : minimise le nombre de cases, pas le coût
   
 ### Complexité
-O(V + E) avec V nombre des cases et E arêtes
-Explication : 
+- O(V + E) avec V nombre des cases et E arêtes
+- Explication : 
 Il visite chaque case une seule fois (V cases)
 Pour chaque case, il regarde tous ses voisins (E arêtes au total)
 
@@ -30,8 +30,8 @@ Utilise une file de priorité et il tient compte des coûts des cases
 - Requiert des coûts non négatifs
 
 ### Complexité
-O((V + E) log V)
-Explication : 
+- O((V + E) log V)
+- Explication : 
 Même principe que BFS mais utilise une file de priorité
 Chaque insertion/mise à jour dans la file coûte log V
 
@@ -50,8 +50,8 @@ La priorité est f(v) = g(v) + h(v) où g est le coût réel parcouru et h est l
 - Heuristique utilisée : distance de Manhattan |Δx| + |Δy|
  
 ### Complexité
-O(E) dans le meilleur cas avec bonne heuristique
-Il explore seulement les cases sur le chemin optimal, sans se disperser
+- O(E) dans le meilleur cas avec bonne heuristique
+- Il explore seulement les cases sur le chemin optimal, sans se disperser
 ### Référence
 
 ## 4. Glouton  
@@ -67,7 +67,8 @@ La priorité est f(v) = h(v) uniquement alors  il fonce vers l'arrivée sans reg
 - Heuristique utilisée : distance de Manhattan
 
 ### Complexité
-- Temps : O(E log V)
+- O(E log V)
 
 ### Référence
+
 
