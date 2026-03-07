@@ -1,5 +1,4 @@
-#Astar.jl
-
+#Aetoile.jl
 using DataStructures
 
 # distance Manhattan
@@ -16,7 +15,7 @@ function init_a(carte)
     return g, parent, visite
 end
 
-function Astar(c::Carte)
+function Aetoile(c::Carte)
     D = c.depart
     A = c.arrive
     
