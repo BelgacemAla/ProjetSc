@@ -28,26 +28,3 @@ function map_to_carte(fichier, depart::Position, arrive::Position)
     return creation_carte(grille, depart, arrive)
 
 end
-
-c = map_to_carte("../test/den201d.map" , Position(3,13),Position(30,30))
-println(c.grille)
-affichage_carte(c)
-
-include("BFS.jl")
-chemin, cout, noeuds = bfs(c)
-println("Chemin  : ", chemin)
-println("Coût    : ", cout)
-println("Noeuds  : ", noeuds)
-
-include("dijkstra.jl")
-chemin, cout, noeuds = dijkstra(c)
-println("Chemin  : ", chemin)
-println("Coût    : ", cout)
-println("Noeuds  : ", noeuds)
-
-include("Aetoile.jl")
-chemin, cout, noeuds = Aetoile(c)
-println("A* :")
-println("  Chemin  : ", chemin)
-println("  Coût    : ", cout)
-println("  Noeuds  : ", noeuds)
