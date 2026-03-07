@@ -9,12 +9,13 @@ include("lecture_map.jl")
 
 function algoBFS(fname, D::Tuple{Int64,Int64}, A::Tuple{Int64,Int64})
     c = map_to_carte(fname, Position(D[1],D[2]), Position(A[1],A[2]))
-    chemin, cout, noeuds = bfs(c)
+     t = @elapsed chemin, cout, noeuds = bfs(c)
     if chemin === nothing
         println("Aucun chemin trouvé")
     else
         println("Distance D → A : ", cout)
         println("Nombre d'états explorés : ", noeuds)
+        println("Temps de calcul : ", round(t, digits=6), " s")
         print("Path D → A : ")
         println(join(["($(p.x), $(p.y))" for p in chemin], "→"))
     end
@@ -22,12 +23,13 @@ end
 
 function algoDijkstra(fname::String, D::Tuple{Int64,Int64}, A::Tuple{Int64,Int64})
     c = map_to_carte(fname, Position(D[1],D[2]), Position(A[1],A[2]))
-    chemin, cout, noeuds = dijkstra(c)
+     t = @elapsed chemin, cout, noeuds = dijkstra(c)
     if chemin === nothing
         println("Aucun chemin trouvé")
     else
         println("Distance D → A : ", cout)
         println("Nombre d'états explorés : ", noeuds)
+        println("Temps de calcul : ", round(t, digits=6), " s")
         print("Path D → A : ")
         println(join(["($(p.x), $(p.y))" for p in chemin], "→"))
     end
@@ -35,12 +37,13 @@ end
 
 function algoAstar(fname::String, D::Tuple{Int64,Int64}, A::Tuple{Int64,Int64})
     c = map_to_carte(fname, Position(D[1],D[2]), Position(A[1],A[2]))
-    chemin, cout, noeuds = Astar(c)
+     t = @elapsed chemin, cout, noeuds = Astar(c)
     if chemin === nothing
         println("Aucun chemin trouvé")
     else
         println("Distance D → A : ", cout)
         println("Nombre d'états explorés : ", noeuds)
+        println("Temps de calcul : ", round(t, digits=6), " s")
         print("Path D → A : ")
         println(join(["($(p.x), $(p.y))" for p in chemin], "→"))
     end
@@ -48,12 +51,13 @@ end
 
 function algoGlouton(fname::String, D::Tuple{Int64,Int64}, A::Tuple{Int64,Int64})
     c = map_to_carte(fname, Position(D[1],D[2]), Position(A[1],A[2]))
-    chemin, cout, noeuds = glouton(c)
+     t = @elapsed chemin, cout, noeuds = glouton(c)
     if chemin === nothing
         println("Aucun chemin trouvé")
     else
         println("Distance D → A : ", cout)
         println("Nombre d'états explorés : ", noeuds)
+        println("Temps de calcul : ", round(t, digits=6), " s")
         print("Path D → A : ")
         println(join(["($(p.x), $(p.y))" for p in chemin], "→"))
     end
