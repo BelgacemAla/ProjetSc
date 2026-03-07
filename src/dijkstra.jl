@@ -1,4 +1,5 @@
 #dijkstra.jl
+
 using DataStructures
 
 # initialisation des données utilisé 
