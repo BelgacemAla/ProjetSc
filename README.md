@@ -42,10 +42,10 @@ include("main.jl")
 ```
 Puis appeler un algorithme :
 ```julia
-algoBFS("../test/den201d.map", (3, 13), (29, 30))
-algoDijkstra("../test/den201d.map", (3, 13), (29, 30))
-algoAstar("../test/den201d.map", (3, 13), (29, 30))
-algoGlouton("../test/den201d.map", (3, 13), (29, 30))
+algoBFS("../test/den201d.map", (20,24), (27,24))
+algoDijkstra("../test/den201d.map", (20,24), (27,24))
+algoAstar("../test/den201d.map", (20,24), (27,24))
+algoGlouton("../test/den201d.map", (20,24), (27,24))
 ```
 Les paramètres sont :
 - `fname` : chemin vers le fichier `.map`
@@ -62,4 +62,5 @@ Installation de package :
 using Pkg
 Pkg.add("DataStructures")
 ```
+
 
