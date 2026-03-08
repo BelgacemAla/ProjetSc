@@ -16,6 +16,8 @@ Il visite chaque case une seule fois (V cases)
 Pour chaque case, il regarde tous ses voisins (E arêtes au total)
 
 ### Référence
+Wikipedia, Breadth-first search, 
+https://en.wikipedia.org/wiki/Breadth-first_search
 
 ## 2. Dijkstra
 
@@ -36,6 +38,8 @@ Même principe que BFS mais utilise une file de priorité
 Chaque insertion/mise à jour dans la file coûte log V
 
 ### Référence
+Wikipedia, Dijkstra's algorithm,
+https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 
 ## 3. A* 
 
@@ -53,6 +57,8 @@ La priorité est f(v) = g(v) + h(v) où g est le coût réel parcouru et h est l
 - O(E) dans le meilleur cas avec bonne heuristique
 - Il explore seulement les cases sur le chemin optimal, sans se disperser
 ### Référence
+Red Blob Games, Introduction to A*,
+https://www.redblobgames.com/pathfinding/a-star/introduction.html
 
 ## 4. Glouton  
 
@@ -70,5 +76,6 @@ La priorité est f(v) = h(v) uniquement alors  il fonce vers l'arrivée sans reg
 - O(E log V)
 
 ### Référence
-
+Red Blob Games, Implementation of A* and Greedy Best-First Search,
+https://www.redblobgames.com/pathfinding/a-star/implementation.html
 
