@@ -1,7 +1,9 @@
 # Structure représentant un AMR et sa mission avec mise à jour du A* pour plusieurs AMR
 
 include("carte.jl")
-include("Aetoile.jl")  
+include("BFS.jl")  
+include("Aetoile.jl")
+using DataStructures
 
 mutable struct AMR 
     id :: Int
@@ -52,7 +54,7 @@ function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debu
                 if (v.x, v.y, t_voisin) in cases_interdites
                     continue
                 end
-
+            
                 nouv_g = g[pos.x, pos.y] + c.couts[v.x, v.y]
                 if nouv_g < g[v.x, v.y]
                     g[v.x, v.y]      = nouv_g
