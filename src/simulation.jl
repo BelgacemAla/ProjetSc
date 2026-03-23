@@ -42,29 +42,32 @@ function simulation(carte::Carte, missions::Vector{Tuple{Position,Position,Int}}
     amrs = AMR[]
 
     # planification AMR par AMR
-    for (id, (depart, arrive, t_debut)) in enumerate(missions)
+    for (id, (depart, arrive, t_debut)) in enumerate(missions) 
         carte_amr = Carte(carte.grille, carte.couts, carte.nb_l, carte.nb_col, depart, arrive)
         chemin, cout, _ = Astar_multi(carte_amr, cases_interdites, t_debut , amrs)
 
         if chemin === nothing
             println("AMR $id : aucun chemin trouvé")
         else
-            println("AMR $id : $(length(chemin)-1) pas, coût=$cout")
-            enregistrer_chemin!(cases_interdites, chemin)
-            push!(amrs, AMR(id, depart, arrive, chemin))
+            amr_courant = AMR(id, depart, arrive, chemin)
+            println("AMR $id : $(length(chemin)-1) pas, coût=$cout")      
+            push!(amrs, amr_courant)
+            enregistrer_chemin!(cases_interdites, chemin, amrs)
+            
         end
     end
-    
+
     # recherche de temps de la fin
-    t_max = 0
-    for amr in amrs
-        t_arr = last(amr.chemin[end]) # acées au temps de derniere position  
-        if t_arr > t_max
-            t_max = t_arr
-        end
-    end
+    t_max = maximum(last(amr.chemin[end]) for amr in amrs) 
+
     for t in 1:t_max
         println("\nt = $t")
+        println("cases interdites à t = ",t)
+        for (x,y,tii) in cases_interdites
+            if tii == t
+                println(" x= ",x," y= ",y)
+            end
+        end
         afficher_instant(carte, amrs, t)
     end
 end
@@ -77,7 +80,9 @@ carte = creation_carte(grille, Position(1,1), Position(1,1))
 # les missions 
 missions = [
     (Position(2,1), Position(2,8), 1), 
-    (Position(2,8), Position(2,1), 3),]
+    (Position(1,4), Position(3,4), 1), 
+    (Position(2,8), Position(2,1), 1), 
+    ]
 
 simulation(carte, missions)
 print("cbon")
