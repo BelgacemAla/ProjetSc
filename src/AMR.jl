@@ -98,12 +98,6 @@ end
 function enregistrer_chemin!(cases_interdites, chemin,amrs)
     for (pos, t) in chemin
         push!(cases_interdites, (pos.x, pos.y, t))
-      #  for amr in amrs
-       #     pos_cour,t_cour = amr.chemin[end] 
-        #    if t > t_cour 
-         #       print("apres fin",pos_cour.x, pos_cour.y, t)
-          #      push!(cases_interdites, (pos_cour.x, pos_cour.y, t))
-           # end
     end
     
     # temps d'arrivée de l'AMR courant
