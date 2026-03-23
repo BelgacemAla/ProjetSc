@@ -107,7 +107,7 @@ function enregistrer_chemin!(cases_interdites, chemin,amrs)
     end
     
     # temps d'arrivée de l'AMR courant
-    t_fin = last(chemin[end])
+    t_fin = maximum(last(amr.chemin[end]) for amr in amrs)
 
     # si un AMR déjà planifié arrive avant l'AMR courant
     # on bloque sa position finale jusqu'au temps de fin de l'AMR courant
