@@ -18,8 +18,12 @@ function afficher_instant(carte::Carte, amrs::Vector{AMR}, t::Int)
                         id_cour = amr.id
                     end
                 end
+                # cas de l'arrivé avant la fin du temps
+                (pos_finale, t_finale) = amr.chemin[end]
+                if t > t_finale && pos_finale.x == i && pos_finale.y == j
+                    id_cour = amr.id
+                end
             end
-
             if id_cour !== nothing
                 print(" $(id_cour) ")
             elseif carte.grille[i, j] == -1
@@ -72,8 +76,8 @@ carte = creation_carte(grille, Position(1,1), Position(1,1))
 
 # les missions 
 missions = [
-    (Position(2,1), Position(2,8), 3), 
-    (Position(2,8), Position(2,1), 1),]
+    (Position(2,1), Position(2,8), 1), 
+    (Position(2,8), Position(2,1), 3),]
 
 simulation(carte, missions)
 print("cbon")
