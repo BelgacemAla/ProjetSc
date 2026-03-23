@@ -12,6 +12,8 @@ mutable struct AMR
     chemin :: Vector{Tuple{Position,Int}}  # liste de (position, temps)
 end
 
+# constructeur AMR 
+
 # Astar modifié pour plusieurs AMR
 # cases_interdites : Set des (x, y, t) déjà réservés par les AMR planifiés avant
 # t_debut : instant où cet AMR commence sa mission
@@ -49,7 +51,6 @@ function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debu
             for v in voisins(c, pos)
                 # instant où on arriverait sur ce voisin
                 t_voisin = temps[pos.x, pos.y] + 1
-
                 # on passe au voisin suivant si on a case interdite à cet instant 
                 if (v.x, v.y, t_voisin) in cases_interdites
                     continue
@@ -70,7 +71,8 @@ function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debu
                 if echange
                     continue
                 end
-
+                
+ 
                 nouv_g = g[pos.x, pos.y] + c.couts[v.x, v.y]
                 if nouv_g < g[v.x, v.y]
                     g[v.x, v.y]      = nouv_g
@@ -93,8 +95,28 @@ end
 
 # après planification d'un AMR, on enregistre son chemin dans cases_interdites
 # pour que les AMR suivants ne pourront pas passer par ces cases à ces instants
-function enregistrer_chemin!(cases_interdites::Set{Tuple{Int,Int,Int}}, chemin::Vector{Tuple{Position,Int}})
+function enregistrer_chemin!(cases_interdites, chemin,amrs)
     for (pos, t) in chemin
         push!(cases_interdites, (pos.x, pos.y, t))
+      #  for amr in amrs
+       #     pos_cour,t_cour = amr.chemin[end] 
+        #    if t > t_cour 
+         #       print("apres fin",pos_cour.x, pos_cour.y, t)
+          #      push!(cases_interdites, (pos_cour.x, pos_cour.y, t))
+           # end
+    end
+    
+    # temps d'arrivée de l'AMR courant
+    t_fin = last(chemin[end])
+
+    # si un AMR déjà planifié arrive avant l'AMR courant
+    # on bloque sa position finale jusqu'au temps de fin de l'AMR courant
+    for amr in amrs
+        (pos_fin, t_fin_avant) = amr.chemin[end]
+        if t_fin_avant < t_fin
+            for t_extra in t_fin_avant:t_fin
+                push!(cases_interdites, (pos_fin.x, pos_fin.y, t_extra))
+            end
+        end
     end
 end
