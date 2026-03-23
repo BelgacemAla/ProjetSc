@@ -15,7 +15,7 @@ end
 # Astar modifié pour plusieurs AMR
 # cases_interdites : Set des (x, y, t) déjà réservés par les AMR planifiés avant
 # t_debut : instant où cet AMR commence sa mission
-function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debut::Int)
+function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debut::Int , amrs::Vector{AMR})
     D = c.depart
     A = c.arrive
 
@@ -54,7 +54,23 @@ function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debu
                 if (v.x, v.y, t_voisin) in cases_interdites
                     continue
                 end
-            
+                
+                # on passe au voisin suivant si on fait un echange
+                echange = false 
+                for amr in amrs
+                    for i in 1:length(amr.chemin)-1
+                        (avant, t1) = amr.chemin[i]  
+                        (apres, t2) = amr.chemin[i+1]
+                        # cas d'echange de positions
+                        if avant == v && apres == pos && t1 == t_voisin - 1
+                            echange = true
+                        end
+                    end
+                end
+                if echange
+                    continue
+                end
+
                 nouv_g = g[pos.x, pos.y] + c.couts[v.x, v.y]
                 if nouv_g < g[v.x, v.y]
                     g[v.x, v.y]      = nouv_g
