@@ -40,7 +40,7 @@ function simulation(carte::Carte, missions::Vector{Tuple{Position,Position,Int}}
     # planification AMR par AMR
     for (id, (depart, arrive, t_debut)) in enumerate(missions)
         carte_amr = Carte(carte.grille, carte.couts, carte.nb_l, carte.nb_col, depart, arrive)
-        chemin, cout, _ = Astar_multi(carte_amr, cases_interdites, t_debut)
+        chemin, cout, _ = Astar_multi(carte_amr, cases_interdites, t_debut , amrs)
 
         if chemin === nothing
             println("AMR $id : aucun chemin trouvé")
@@ -72,7 +72,8 @@ carte = creation_carte(grille, Position(1,1), Position(1,1))
 
 # les missions 
 missions = [
-    (Position(2,1), Position(2,8), 1), 
+    (Position(2,1), Position(2,8), 3), 
     (Position(2,8), Position(2,1), 1),]
 
 simulation(carte, missions)
+print("cbon")
