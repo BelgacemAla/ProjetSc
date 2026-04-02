@@ -12,7 +12,11 @@ mutable struct AMR
     chemin :: Vector{Tuple{Position,Int}}  # liste de (position, temps)
 end
 
-# constructeur AMR 
+
+const Etat = Tuple{Position, Int}      # etat de robot : position à instant t
+const TableCouts = Dict{Etat, Float64} # dictionnaire des couts 
+const TableParents = Dict{Etat, Etat}
+
 
 # Astar modifié pour plusieurs AMR
 # cases_interdites : Set des (x, y, t) déjà réservés par les AMR planifiés avant
@@ -21,96 +25,103 @@ function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debu
     D = c.depart
     A = c.arrive
 
-    g, parent, visite = init_a(c)
+    g = TableCouts()
+    parent = TableParents()
+    file =  PriorityQueue{Etat, Float64}()
 
-    # tableau qui stocke à quel instant on atteint chaque case
-    temps = fill(0, c.nb_l, c.nb_col)
-    temps[D.x, D.y] = t_debut
-
-    file = PriorityQueue{Position, Float64}()
-    enqueue!(file, D, heuristique(D, A))
+    depart_etat::Etat = (D, t_debut)
+    g[depart_etat] = 0.0
+    enqueue!(file, depart_etat, heuristique(D, A))
 
     noeuds_explores = 0
 
     while !isempty(file)
-        pos = dequeue!(file)
+        (pos ,t)= dequeue!(file)
         noeuds_explores += 1
 
-        if !visite[pos.x, pos.y]
-            visite[pos.x, pos.y] = true
+        if t > t_debut + 200 continue end
 
-            if pos == A
-                # on reconstruit le chemin comme dans la partie 1
-                chemin_pos = reconstruction_chemin(parent, D, A)
+        if pos == A
+            return reconstruction_chemin_multi(parent, depart_etat, (pos, t)), g[(pos, t)], noeuds_explores
+        end
 
-                # on construit le chemin avec les temps 
-                chemin = [(chemin_pos[i], t_debut + i -1) for i in 1:length(chemin_pos)]
-                return chemin, g[A.x, A.y], noeuds_explores
+        # position courante comme voisin permet de rester dur place
+        tous_voisins = voisins(c, pos)
+        push!(tous_voisins, pos)
+
+        for v in tous_voisins
+            t_voisin = t + 1
+            etat_voisin = (v, t_voisin)
+
+            # Interdiction passage sur cases occupé instant t
+            if (v.x, v.y, t_voisin) in cases_interdites
+                continue
+            end
+                
+            # Interdiction de passage au dessus amr
+            echange = false 
+            for amr in amrs
+                # CAS echange positions
+                if a_ete_sur_position_a_t(amr, v, t) && a_ete_sur_position_a_t(amr, pos, t_voisin)
+                    echange = true
+                    break
+                end
+                # CAS d'un robot deja arrivé à cette position
+                (p_fin, t_fin) = amr.chemin[end]
+                if v == p_fin && t_voisin >= t_fin  
+                    echange = true 
+                    break
+                end
+            end
+    
+            if echange continue end
+
+            if (v == pos)  # ne bouge pas mais temps passe alors cout = 1
+                nouv_g = g[(pos, t)] + 1 
+            else 
+                nouv_g = c.couts[v.x, v.y] + g[(pos, t)]
             end
 
-            for v in voisins(c, pos)
-                # instant où on arriverait sur ce voisin
-                t_voisin = temps[pos.x, pos.y] + 1
-                # on passe au voisin suivant si on a case interdite à cet instant 
-                if (v.x, v.y, t_voisin) in cases_interdites
-                    continue
-                end
-                
-                # on passe au voisin suivant si on fait un echange
-                echange = false 
-                for amr in amrs
-                    for i in 1:length(amr.chemin)-1
-                        (avant, t1) = amr.chemin[i]  
-                        (apres, t2) = amr.chemin[i+1]
-                        # cas d'echange de positions
-                        if avant == v && apres == pos && t1 == t_voisin - 1
-                            echange = true
-                        end
-                    end
-                end
-                if echange
-                    continue
-                end
-                
- 
-                nouv_g = g[pos.x, pos.y] + c.couts[v.x, v.y]
-                if nouv_g < g[v.x, v.y]
-                    g[v.x, v.y]      = nouv_g
-                    parent[v.x, v.y] = pos
-                    # mémorisation d'instant où on atteint ce voisin
-                    temps[v.x, v.y]  = t_voisin
-                    if haskey(file, v)
-                        file[v] = nouv_g + heuristique(v, A)
-                    else
-                        enqueue!(file, v, nouv_g + heuristique(v, A))
-                    end
-                end
+            # Position n'a jamais été visité dans ce temps 
+            # ou on a trouvé chemin moins couteux à travers  
+            if !haskey(g,etat_voisin) || nouv_g < g[etat_voisin]
+                g[etat_voisin]   = nouv_g
+                parent[etat_voisin] = (pos,t)
+                priorite = nouv_g + heuristique(v, A)
+                file[etat_voisin] = priorite
             end
         end
     end
-
     return nothing, nothing, noeuds_explores
 end
 
+# reconstruire le chemin des etats à partir de tableau de parents
+function reconstruction_chemin_multi(parent, depart_etat, arrive_etat)
+    chemin = Etat[]
+    courant = arrive_etat
+    while courant != depart_etat
+        pushfirst!(chemin, courant)
+        courant = parent[courant]
+    end
+    pushfirst!(chemin, depart_etat)
+    return chemin
+end
 
-# après planification d'un AMR, on enregistre son chemin dans cases_interdites
+
+# Fonction pour vérifier si un AMR était à une position donnée à un instant t
+function a_ete_sur_position_a_t(amr::AMR, pos::Position, t::Int)
+    for (p, ti) in amr.chemin
+        if p == pos && ti == t
+            return true
+        end
+    end
+    return false
+end
+
+# après planification d'un AMR, on enregistre son chemin 
 # pour que les AMR suivants ne pourront pas passer par ces cases à ces instants
 function enregistrer_chemin!(cases_interdites, chemin,amrs)
     for (pos, t) in chemin
         push!(cases_interdites, (pos.x, pos.y, t))
-    end
-    
-    # temps d'arrivée de l'AMR courant
-    t_fin = maximum(last(amr.chemin[end]) for amr in amrs)
-
-    # si un AMR déjà planifié arrive avant l'AMR courant
-    # on bloque sa position finale jusqu'au temps de fin de l'AMR courant
-    for amr in amrs
-        (pos_fin, t_fin_avant) = amr.chemin[end]
-        if t_fin_avant < t_fin
-            for t_extra in t_fin_avant:t_fin
-                push!(cases_interdites, (pos_fin.x, pos_fin.y, t_extra))
-            end
-        end
     end
 end
