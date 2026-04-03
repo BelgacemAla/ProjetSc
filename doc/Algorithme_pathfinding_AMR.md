@@ -92,7 +92,7 @@ Résultat observé :
 - temps total dépendant de la densité du trafic
 
 ---
-### Simulation multi-agents
+## Simulation multi-agents
 
 La simulation permet d’exécuter et visualiser les déplacements des AMR dans le temps, après planification.
 Elle repose sur deux fonctions principales :
