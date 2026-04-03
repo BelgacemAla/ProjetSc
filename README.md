@@ -62,9 +62,9 @@ ProjetSc/
 │   └── exemple_presentation.jl
 |   └── test_grille_simple.jl
 │   └── test_grille_complexe.jl
-├── doc/                Principes des 3 algos et résultats des tests     
-│   ├── algorithme.md
-│   └── comparaison.md   
+├── doc/                Principes des fichiers implementer
+│   ├── algorithme_Pathfinding.md
+│   └── comparaison_Pathfinding.md   
 │
 └── README.md
 ```
