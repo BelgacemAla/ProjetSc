@@ -22,17 +22,17 @@ ProjetSc/
 │   ├── glouton.jl      # algorithme Glouton
 │   ├── lecture_map.jl  # lecture des fichiers .map
 │   └── main.jl         # fonctions algoBFS, algoDijkstra, algoAstar, algoGlouton
-├── test/
+├── data/                  # Dossier contenant les cartes à tester avec
 │   ├── den201d.map
 │   ├── den201d.map.scen
 │   ├── den009d.map
-│   ├── den009d.map.scen
-│   ├── combat.map
-│   └── combat.map.scen
+│   └── ...
+├── test/
+│   └── exemple_presentation.jl  # fichier de test restant
 ├── res/
 └── doc/
-    ├── algorithme.md   # description des algorithmes
-    └── comparaison.md  # étude comparative des résultats              
+    ├── algorithme.md
+    └── comparaison.md       
 ```
 ## Utilisation
 
@@ -42,10 +42,10 @@ include("main.jl")
 ```
 Puis appeler un algorithme :
 ```julia
-algoBFS("../test/den201d.map", (20,24), (27,24))
-algoDijkstra("../test/den201d.map", (20,24), (27,24))
-algoAstar("../test/den201d.map", (20,24), (27,24))
-algoGlouton("../test/den201d.map", (20,24), (27,24))
+algoBFS("../data/den201d.map", (20,24), (27,24))
+algoDijkstra("../data/den201d.map", (20,24), (27,24))
+algoAstar("../data/den201d.map", (20,24), (27,24))
+algoGlouton("../data/den201d.map", (20,24), (27,24))
 ```
 Les paramètres sont :
 - `fname` : chemin vers le fichier `.map`
