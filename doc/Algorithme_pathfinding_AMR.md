@@ -77,13 +77,7 @@ L’implémentation a été validée progressivement sur plusieurs scénarios :
 
 ---
 
-### Exemple de résultat
-
-Sur un scénario avec plusieurs agents :
-
-- Un agent prioritaire suit un chemin direct
-- Un second agent attend pour éviter un conflit au croisement
-- Les autres agents adaptent leur trajectoire sans blocage global
+### Résultat
 
 Résultat observé :
 
