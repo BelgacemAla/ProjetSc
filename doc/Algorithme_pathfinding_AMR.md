@@ -92,3 +92,60 @@ Résultat observé :
 - temps total dépendant de la densité du trafic
 
 ---
+### Simulation multi-agents
+
+La simulation permet d’exécuter et visualiser les déplacements des AMR dans le temps, après planification.
+Elle repose sur deux fonctions principales :
+
+- `simulation`  
+  Planifie les agents un par un avec `Astar_multi`, puis lance l’exécution temporelle.
+  Chaque agent suit son chemin tout en respectant les contraintes de collision.
+
+- `afficher_instant`  
+  Affiche l’état de la grille à un instant donné avec la position de chaque AMR.
+
+---
+
+### Lancement
+
+```bash
+julia test/exemple_presentation.jl
+```
+
+---
+
+### Affichage
+
+- `.` : case libre  
+- `+` : obstacle  
+- `1, 2, 3, ...` : agents  
+
+---
+
+### Exemple visuel
+
+Cas simple : deux agents en face-à-face
+
+**t = 1**
+
+```
+. . . . .
+. 1 . 2 .
+. . . . .
+```
+
+**t = 2**
+
+```
+. . . . .
+. . 1 2 .
+. . . . .
+```
+
+**t = 3 (conflit évité)**
+
+```
+. . . . .
+. . 1 . .
+. . 2 . .
+```
