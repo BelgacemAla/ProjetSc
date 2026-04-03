@@ -68,7 +68,7 @@ L’implémentation a été validée progressivement sur plusieurs scénarios :
   - plusieurs agents avec conflits simultanés / gestion de priorités (ordre de planification)
 
 - **Cas complexes**
-  - environnement de type entrepôt / plusieurs agents avec des temps de départ différents / circulation dense dans des couloirs contraints
+  - environnement de type entrepôt / plusieurs agents avec des temps de départ différents / circulation dense dans des couloirs 
 
 ---
 
