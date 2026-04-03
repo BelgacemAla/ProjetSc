@@ -39,7 +39,7 @@ function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debu
         (pos ,t)= dequeue!(file)
         noeuds_explores += 1
 
-        if t > t_debut + 200 continue end
+        if t > t_debut + 400 continue end
 
         if pos == A
             return reconstruction_chemin_multi(parent, depart_etat, (pos, t)), g[(pos, t)], noeuds_explores
@@ -77,7 +77,7 @@ function Astar_multi(c::Carte, cases_interdites::Set{Tuple{Int,Int,Int}}, t_debu
             if echange continue end
 
             if (v == pos)  # ne bouge pas mais temps passe alors cout = 1
-                nouv_g = g[(pos, t)] + 1 
+                nouv_g = g[(pos, t)] + 1
             else 
                 nouv_g = c.couts[v.x, v.y] + g[(pos, t)]
             end
