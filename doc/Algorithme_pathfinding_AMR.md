@@ -62,18 +62,13 @@ end
 L’implémentation a été validée progressivement sur plusieurs scénarios :
 
 - **Cas simples**
-  - croisement de deux agents
-  - face-à-face dans un couloir
-  - attente devant un passage étroit
+  - croisement de deux agents / face-à-face dans un couloir / attente devant un passage étroit
 
 - **Cas test de Présentation du projet ( pour verifié que algorithme valide )**
-  - plusieurs agents avec conflits simultanés
-  - gestion de priorités (ordre de planification)
+  - plusieurs agents avec conflits simultanés / gestion de priorités (ordre de planification)
 
 - **Cas complexes**
-  - environnement de type entrepôt
-  - plusieurs agents avec des temps de départ différents
-  - circulation dense dans des couloirs contraints
+  - environnement de type entrepôt / plusieurs agents avec des temps de départ différents / circulation dense dans des couloirs contraints
 
 ---
 
