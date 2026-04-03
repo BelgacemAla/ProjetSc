@@ -1,4 +1,4 @@
-## Planification Multi-Agents (AMR)
+# 1- Planification Multi-Agents (AMR)
 
 Cette partie du projet traite le problème de **Multi-Agent Pathfinding ** dans un environnement discret de type grille.  
 L’objectif est de coordonner plusieurs robots (AMR) afin qu’ils atteignent leurs destinations respectives **sans collision**.
@@ -92,7 +92,7 @@ Résultat observé :
 - temps total dépendant de la densité du trafic
 
 ---
-## Simulation multi-agents
+# 2- Simulation multi-agents
 
 La simulation permet d’exécuter et visualiser les déplacements des AMR dans le temps, après planification.
 Elle repose sur deux fonctions principales :
