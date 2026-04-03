@@ -1,66 +1,142 @@
-# Projet d'Informatique Scientifique - Pathfinding
+# Projet d’Informatique Scientifique  
+**Pathfinding et Planification Multi-Agents (AMR)**  
+Licence Informatique – Parcours Mathématiques-Informatique  
+Nantes Université – Année 2024/2025  
 
-Licence informatique parcours mathématiques-informatique  
-Nantes Université - 2024/2025
+---
 
-## Description
+## 1. Objectif du projet
 
-Implémentation de 3 algorithmes de recherche de plus court chemin sur une carte en Julia :
-- **BFS** : recherche non informée sans coûts
-- **Dijkstra** : recherche non informée avec coûts
-- **A\*** : recherche informée avec heuristique (distance de Manhattan)
-- - **Glouton** : recherche informée, rapide mais non optimale
+Ce projet a pour objectif l’implémentation et l’étude d’algorithmes de recherche de plus court chemin sur grille, ainsi que leur extension à un contexte multi-agents.
 
-## Structure du projet
+Il est structuré en deux parties :
+
+- **Partie 1 : Pathfinding mono-agent**  
+  Implémentation et comparaison de plusieurs algorithmes classiques de recherche de chemin.
+
+- **Partie 2 : Planification multi-agents (AMR)**  
+  Coordination de plusieurs robots autonomes se déplaçant simultanément, avec gestion des conflits.
+
+---
+
+## 2. Algorithmes implémentés
+
+Les algorithmes suivants ont été développés :
+
+- **BFS (Breadth-First Search)**  
+  Recherche non informée sans prise en compte des coûts.
+
+- **Dijkstra**  
+  Recherche non informée avec gestion des coûts.
+
+- **A\***  
+  Recherche informée utilisant une heuristique (distance de Manhattan).
+
+- **Glouton (Greedy Best-First Search)**  
+  Recherche rapide basée uniquement sur l’heuristique (non optimale).
+
+Ces algorithmes sont appliqués sur des cartes au format `.map` , et sont plus detailler dans le dossier doc avec les resultats de tests.
+
+---
+
+## 3. Structure du projet
+
 ```
 ProjetSc/
 ├── src/
-│   ├── carte.jl        # types Position, Carte et fonctions de base
-│   ├── BFS.jl          # algorithme BFS
-│   ├── dijkstra.jl     # algorithme Dijkstra
-│   ├── Aetoile.jl      # algorithme Astar
-│   ├── glouton.jl      # algorithme Glouton
-│   ├── lecture_map.jl  # lecture des fichiers .map
-│   └── main.jl         # fonctions algoBFS, algoDijkstra, algoAstar, algoGlouton
-├── data/                  # Dossier contenant les cartes à tester avec
-│   ├── den201d.map
-│   ├── den201d.map.scen
-│   ├── den009d.map
-│   └── ...
+│   ├── carte.jl        
+│   ├── lecture_map.jl
+│   ├── BFS.jl          Algorithmes de recherche de chemin
+│   ├── dijkstra.jl         
+│   ├── Aetoile.jl
+│   ├── glouton.jl
+│   ├── AMR.jl          Algorithme principe A* avec gestion des collisions (Partie 2)
+│   ├── simulation.jl   Algorithme d'application des mission dur une carte (Partie 2)
+│   └── main.jl
+│
+├── data/               Cartes et scénarios
+│   ├── *.map
+│   ├── *.scen
+│
 ├── test/
-│   └── exemple_presentation.jl  # fichier de test restant
-├── res/
-└── doc/
-    ├── algorithme.md
-    └── comparaison.md       
+│   └── exemple_presentation.jl
+│
+├── doc/                Principes des 3 algos et résultats des tests     
+│   ├── algorithme.md
+│   └── comparaison.md   
+│
+└── README.md
 ```
-## Utilisation
 
-Depuis le dossier `src/` dans le REPL Julia :
+---
+
+## 4. Utilisation – Partie 1 (mono-agent)
+
+Se placer dans le dossier `src/`, puis lancer Julia :
+
 ```julia
 include("main.jl")
 ```
-Puis appeler un algorithme :
+
+Exemples d’exécution :
+
 ```julia
 algoBFS("../data/den201d.map", (20,24), (27,24))
 algoDijkstra("../data/den201d.map", (20,24), (27,24))
 algoAstar("../data/den201d.map", (20,24), (27,24))
 algoGlouton("../data/den201d.map", (20,24), (27,24))
 ```
-Les paramètres sont :
+
+### Paramètres
+
 - `fname` : chemin vers le fichier `.map`
-- `D` : position de départ sous forme `(ligne, colonne)`
-- `A` : position d'arrivée sous forme `(ligne, colonne)`
-  
-## Dépendances
+- `D` : position de départ `(ligne, colonne)`
+- `A` : position d’arrivée `(ligne, colonne)`
 
-- Julia 1.11 ou plus
-- Package `DataStructures.jl` 
+---
 
-Installation de package :
+## 5. Partie 2 – Planification Multi-Agents (AMR)
+
+Cette partie étend A\* au cas multi-agents.
+
+### Contexte
+
+Cette section traite du déplacement simultané de plusieurs robots tout en évitant les collisions.
+Chaque robot doit effectuer une mission (aller d’un point à un autre) tout en respectant des contraintes :
+
+- Pas de collision de position (deux agents au même endroit au même temps)
+- Pas d’échange de positions entre deux instants consécutifs
+- Prise en compte du temps 
+
+### Principe
+
+- Les agents sont planifiés **séquentiellement**
+- Chaque trajectoire validée devient une **contrainte** pour les suivantes
+- En cas de conflit :
+  - le chemin est rejeté
+  - un nouveau chemin est recalculé 
+
+---
+
+## 6. Exécution – Simulation multi-agents
+
+
+## 7. Dépendances
+
+Le projet nécessite :
+
+- **Julia ≥ 1.11**
+- Package : `DataStructures.jl`
+
+Installation :
+
 ```julia
 using Pkg
 Pkg.add("DataStructures")
 ```
+---
 
+## 9. Auteur
 
+Projet réalisé dans le cadre du module d’informatique scientifique.  
+Nantes Université – 2024/2025
