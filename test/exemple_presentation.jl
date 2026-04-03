@@ -14,7 +14,7 @@ grille = [-1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  
           -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 -1  0 -1 -1 -1 
         ]
 
-couts = ones(Float64, rows, 37)
+couts = ones(Float64, 11, 37)
 carte_entrepot = Carte(grille, couts, 11, 37, Position(1, 1), Position(1, 1))
 
 # --- MISSIONS DE TEST 
