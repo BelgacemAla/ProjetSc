@@ -1,4 +1,4 @@
-## Planification Multi-Agents (AMR)
+# 1- Planification Multi-Agents (AMR)
 
 Cette partie du projet traite le problème de **Multi-Agent Pathfinding ** dans un environnement discret de type grille.  
 L’objectif est de coordonner plusieurs robots (AMR) afin qu’ils atteignent leurs destinations respectives **sans collision**.
@@ -62,28 +62,17 @@ end
 L’implémentation a été validée progressivement sur plusieurs scénarios :
 
 - **Cas simples**
-  - croisement de deux agents
-  - face-à-face dans un couloir
-  - attente devant un passage étroit
+  - croisement de deux agents / face-à-face dans un couloir / attente devant un passage étroit
 
 - **Cas test de Présentation du projet ( pour verifié que algorithme valide )**
-  - plusieurs agents avec conflits simultanés
-  - gestion de priorités (ordre de planification)
+  - plusieurs agents avec conflits simultanés / gestion de priorités (ordre de planification)
 
 - **Cas complexes**
-  - environnement de type entrepôt
-  - plusieurs agents avec des temps de départ différents
-  - circulation dense dans des couloirs contraints
+  - environnement de type entrepôt / plusieurs agents avec des temps de départ différents / circulation dense dans des couloirs 
 
 ---
 
-### Exemple de résultat
-
-Sur un scénario avec plusieurs agents :
-
-- Un agent prioritaire suit un chemin direct
-- Un second agent attend pour éviter un conflit au croisement
-- Les autres agents adaptent leur trajectoire sans blocage global
+### Résultat
 
 Résultat observé :
 
@@ -92,7 +81,7 @@ Résultat observé :
 - temps total dépendant de la densité du trafic
 
 ---
-### Simulation multi-agents
+# 2- Simulation multi-agents
 
 La simulation permet d’exécuter et visualiser les déplacements des AMR dans le temps, après planification.
 Elle repose sur deux fonctions principales :
