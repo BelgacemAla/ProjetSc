@@ -58,7 +58,7 @@ function simulation(carte::Carte, missions::Vector{Tuple{Position,Position,Int}}
             amr_courant = AMR(id, depart, arrive, chemin)
             println("AMR $id : $(length(chemin)-1) pas, coût=$cout")      
             push!(amrs, amr_courant)
-            enregistrer_chemin!(cases_interdites, chemin, amrs)       
+            enregistrer_chemin!(cases_interdites, chemin)       
         end
     end
 

@@ -120,7 +120,7 @@ end
 
 # après planification d'un AMR, on enregistre son chemin 
 # pour que les AMR suivants ne pourront pas passer par ces cases à ces instants
-function enregistrer_chemin!(cases_interdites, chemin,amrs)
+function enregistrer_chemin!(cases_interdites, chemin)
     for (pos, t) in chemin
         push!(cases_interdites, (pos.x, pos.y, t))
     end
