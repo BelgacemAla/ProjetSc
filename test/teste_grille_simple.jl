@@ -6,7 +6,7 @@ include("exemple_presentation.jl")
 println("\n")
 println(" TEST 1 : MISSIONS CROISÉES & OBSTACLES ")
 
-grille_c = [ -1 -1 -1 -1 -1 -1 -1 -1;
+grille_c = [ -1 -1 -1  0 -1 -1 -1 -1;
               0  0  0  0  0  0  0  0;
              -1 -1  0  0  0  0  0  0]
 
@@ -56,8 +56,8 @@ grille_porte = [
 carte_porte = creation_carte(grille_porte, Position(2,1), Position(2,7))
 
 missions_attente = [
-    (Position(2, 4), Position(1, 4), 1), # AMR 1 : Se gare dans l'ouverture
-    (Position(2, 1), Position(2, 7), 1)  # AMR 2 : Doit passer l'ouverture après AMR 1
+    (Position(2, 1), Position(2, 7), 1), 
+    (Position(2, 5), Position(2, 3), 1)  
 ]
 
 simulation(carte_porte, missions_attente)
