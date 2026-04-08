@@ -96,9 +96,10 @@ Elle repose sur deux fonctions principales :
 ---
 
 ### Lancement
-
+depuis le dossier ProjetSc
 ```bash
-julia test/exemple_presentation.jl
+julia
+ include("test/exemple_presentation.jl")
 ```
 
 ---
