@@ -124,7 +124,7 @@ depuis le dossier ProjetSc
 ```bash
 julia
  include("test/exemple_presentation.jl")
-
+```
 ## 7. Dépendances
 
 Le projet nécessite :
