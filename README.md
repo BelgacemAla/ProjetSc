@@ -120,7 +120,10 @@ Chaque robot doit effectuer une mission (aller d’un point à un autre) tout en
 ---
 
 ## 6. Exécution – Simulation multi-agents
-
+depuis le dossier ProjetSc
+```bash
+julia
+ include("test/exemple_presentation.jl")
 
 ## 7. Dépendances
 
